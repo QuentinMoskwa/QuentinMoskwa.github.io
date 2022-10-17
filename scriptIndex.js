@@ -3,6 +3,48 @@ let indexAngel = 0;
 let defaultPiloteName;
 let defaultCardName;
 
+// FullscreenAPI
+function Fullscreen()
+{
+    document.documentElement.requestFullscreen()
+}
+
+
+// BatteryAPI
+function onChargingChange() {
+    handleChange('Battery charging changed to ' + (this.charging ? 'charging' : 'discharging') + '')
+  }
+  function onChargingTimeChange() {
+    handleChange('Battery charging time changed to ' + this.chargingTime + ' s');
+  }
+  function onDischargingTimeChange() {
+    handleChange('Battery discharging time changed to ' + this.dischargingTime + ' s');
+  }
+  function onLevelChange() {
+    handleChange('Battery level changed to ' + this.level + '');
+  }
+
+  var batteryPromise;
+  
+  if ('getBattery' in navigator) {
+    batteryPromise = navigator.getBattery();
+  } else {
+    batteryPromise = Promise.resolve(navigator.battery);
+  }
+  
+  batteryPromise.then(function (battery) {
+    document.getElementById('charging').innerHTML = battery.charging ? 'charging' : 'discharging';
+    document.getElementById('chargingTime').innerHTML = battery.chargingTime + ' s';
+    document.getElementById('dischargingTime').innerHTML = battery.dischargingTime + ' s';
+    document.getElementById('level').innerHTML = battery.level;
+    
+    battery.addEventListener('chargingchange', onChargingChange);
+    battery.addEventListener('chargingtimechange', onChargingTimeChange);
+    battery.addEventListener('dischargingtimechange', onDischargingTimeChange);
+    battery.addEventListener('levelchange', onLevelChange);
+  });
+
+
 
 // funtion de création des cartes
 function addCard(Side, storageCardName, storagePiloteName)
@@ -129,9 +171,7 @@ function addCard(Side, storageCardName, storagePiloteName)
     {
         img.setAttribute("id", "Angel_" + indexAngel);
     }
-    img.setAttribute("height", "auto");
-    img.setAttribute("width", "auto");
-    img.setAttribute("max-height", "100px")
+    img.setAttribute("class", "image");
     divCard.appendChild(img);
     
     // Nom des Pilotes pour les EVA et input pour le modifier
@@ -368,6 +408,5 @@ function pushToLocal(sideCard, index, cardName, piloteName)
 
 function deleteInLocal(sideCard, index)
 {
-    console.log("card" + "-"+ sideCard+ "-"+ index);
     localStorage.removeItem("card" + "-"+ sideCard+ "-"+ index);
 }
