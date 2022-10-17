@@ -1,0 +1,85 @@
+body
+{
+    margin: 0; 
+    height: 100%;
+    width: 100%;
+    /* overflow: hidden; */
+    background-color: black;
+    background-image: url("sources/images/633c3a4dbac00.png") ;
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+}
+
+#EvaCard
+{
+    display: flex;
+    flex-wrap: wrap;
+    /* min-width: 700px; */
+    max-width: 700px;
+}
+#AngelCard
+{
+    display: flex;
+    /* min-width: 700px; */
+    flex-wrap: wrap;
+    max-width: 700px;
+}
+
+.divDropDownMenuEVA
+{
+    margin: 10px 0 10px 0;
+}
+.divBtn
+{
+    margin: 10px 0 10px 40px;
+}
+
+.label
+{
+    color: white;
+}
+
+.cards
+{
+    border-radius: 0px 10px 0px 10px;
+    padding: 10px;
+    margin: 20px;
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.231);
+    /* width: 100%; */
+    /* height: 100%; */
+}
+
+.Card
+{
+    background-color: rgba(255, 255, 255, 0.558);
+    border-radius: 0px 20px 0px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    padding: 5%;
+    min-width: 150px;
+    max-width: 150px;
+    min-height: 350px;
+    /* max-height: 350px; */
+}
+
+.divPilote
+{
+    display: flex;
+    
+    justify-content: center;
+    margin: -5px;
+}
+
+.cardParameters
+{
+    position: relative;
+    display: flex;
+    /* flex-wrap: wrap; */
+    justify-content: space-between;
+    /* bottom: -5px; */
+}

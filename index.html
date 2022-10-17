@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="onLoadFunctions()">
+    <div class="head">
+        <div class="divDropDownMenuEVA">
+            <label class="label" for="eva-num">Choose an EVA to deploy : </label>
+            <select id="dropDownEVA">
+                <option value="EVA_00" selected="selected">EVA_00</option>
+                <option value="EVA_01">EVA_01</option>
+                <option value="EVA_02">EVA_02</option>
+            </select>
+            <button id="btnMeca" type="button" onclick="addCard('EVA')">Add EVA</button>
+        </div>
+        <div class="divDropDownMenuAngel">
+            <label class="label" for="eva-num">Choose an Angel to deploy : </label>
+            <select id="dropDownAngel">
+                <option value="Ramiel" selected="selected">Ramiel</option>
+                <option value="Leliel">Leliel</option>
+                <option value="Bardiel">Bardiel</option>
+                <option value="Zeruel">Zeruel</option>
+                <option value="FourthAngel">FourthAngel</option>
+            </select>
+            <button id="btnAngel" type="button" onclick="addCard('Angel')">Add Angel</button>
+        </div>
+    </div>
+    <div class="cards">
+        <div id="EvaCard"></div>
+        <h1>VS</h1>
+        <div id="AngelCard"></div>
+    </div>
+    
+    <script src="scriptIndex.js"></script>
+</body>
+</html>
