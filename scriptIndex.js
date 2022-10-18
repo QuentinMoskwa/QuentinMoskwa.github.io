@@ -3,14 +3,14 @@ let indexAngel = 0;
 let defaultPiloteName;
 let defaultCardName;
 
-// FullscreenAPI
+//-----------------------------------------------------FullscreenAPI-----------------------------------------------------------------------------------------------------------
 function Fullscreen()
 {
     document.documentElement.requestFullscreen()
 }
 
 
-// BatteryAPI
+//-----------------------------------------------------BatteryAPI--------------------------------------------------------------------------------------------------------------------
 function onChargingChange() {
     handleChange('Battery charging changed to ' + (this.charging ? 'charging' : 'discharging') + '')
   }
@@ -46,7 +46,7 @@ function onChargingChange() {
 
 
 
-// funtion de création des cartes
+//----------------------------------------------------function for adding cards----------------------------------------------------------------------------------
 function addCard(Side, storageCardName, storagePiloteName)
 {
     let value;
@@ -62,9 +62,9 @@ function addCard(Side, storageCardName, storagePiloteName)
         let select = document.getElementById("dropDownAngel");
         value = select.options[select.selectedIndex].value;
     }
-    let block = document.getElementById(masterId);
+    const block = document.getElementById(masterId);
 
-    let divCard = document.createElement("div");
+    const divCard = document.createElement("div");
     divCard.setAttribute("id", "divCard"+indexMeca);
     divCard.setAttribute("class", "Card");
     divCard.style.margin = "20px 50px 0 50px";
@@ -126,8 +126,8 @@ function addCard(Side, storageCardName, storagePiloteName)
     inputCardName.style.display = "none";
         
 
-    // Image de la carte
-    let img = document.createElement("img");
+        //-----------------------------------------------Image de la carte------------------------------------------------------------------------------------------------------------------------
+    const img = document.createElement("img");
     if(value == "EVA_01")
     {
         defaultPiloteName = "Shinji";
@@ -174,14 +174,14 @@ function addCard(Side, storageCardName, storagePiloteName)
     img.setAttribute("class", "image");
     divCard.appendChild(img);
     
-    // Nom des Pilotes pour les EVA et input pour le modifier
+            //---------------------------------------Nom des Pilotes pour les EVA et input pour le modifier---------------------------------------------------------------------------------------------
     if(Side == "EVA")
     {
-        let divPilote = document.createElement("div");
+        const divPilote = document.createElement("div");
         divPilote.setAttribute("class", "divPilote");
         divCard.appendChild(divPilote);
 
-        let piloteLabel = document.createElement("p");
+        const piloteLabel = document.createElement("p");
         piloteLabel.setAttribute("class", "piloteLabel");
         piloteLabel.setAttribute("id", "labelPiloteEVA" + indexMeca);
         piloteLabel.textContent = "Pilote :" ;
@@ -207,12 +207,12 @@ function addCard(Side, storageCardName, storagePiloteName)
         inputName.style.display = "none";
     }
     
-    // Parent des Bouttons
-    let divParametres = document.createElement("div");
+            //------------------------------------------Parent des Bouttons------------------------------------------------------------------------------------------------------------------
+    const divParametres = document.createElement("div");
     divParametres.setAttribute("class", "cardParameters");
     divCard.appendChild(divParametres);
 
-    // Boutton effacer
+            // Boutton effacer
     let btnErase = document.createElement("button");
     btnErase.setAttribute("type", "button");
     if(Side == "EVA")
@@ -228,7 +228,7 @@ function addCard(Side, storageCardName, storagePiloteName)
     btnErase.addEventListener("click", pressEraseButton);
     divParametres.appendChild(btnErase);
     
-    // Boutton Editer
+            //-------------------------------------------Boutton Editer--------------------------------------------------------------------------------------------------------------
     let btnEdit = document.createElement("button");
     btnEdit.setAttribute("type", "button");
     if(Side == "EVA")
@@ -282,61 +282,62 @@ function addCard(Side, storageCardName, storagePiloteName)
     }
 }
 
-// Suppression d'une carte
-    const pressEraseButton = e => 
+//----------------------------------Suppression d'une carte------------------------------------------------------------------------------------------------------------------
+    function pressEraseButton(e)
     {
         eraseMecaCard(e.target.id)
     }
 
-function eraseMecaCard(itemId)
-{
-    let element = document.getElementById(itemId);
-    let parts = itemId.split("-");
-    let sideCard = parts[1];
-    let numCard = parts[2];
-    deleteInLocal(sideCard, numCard);
-    element.parentNode.parentNode.remove(element);
-}
+    function eraseMecaCard(itemId)
+    {
+        let element = document.getElementById(itemId);
+        let parts = itemId.split("-");
+        let sideCard = parts[1];
+        let numCard = parts[2];
+        deleteInLocal(sideCard, numCard);
+        element.parentNode.parentNode.remove(element);
+    }
 
 
-// Edition d'une carte
-    const pressEditButton = e => 
+//---------------------------------------------------Edition d'une carte--------------------------------------------------------------------------------------------------
+    function pressEditButton(e) 
     {
         editMecaCard(e.target.id)
     }
 
-function editMecaCard(itemId)
+    function editMecaCard(itemId)
+    {
+
+        let element = itemId;
+        let parts = element.split("-");
+        let sideCard = parts[1];
+        let numCard = parts[2];
+
+        let validBTN = document.getElementById("btnValidate" + "-" + sideCard + "-" + numCard);
+        validBTN.style.display = "block";
+        let editBTN = document.getElementById("btnEdit" + "-" + sideCard + "-" + numCard);
+        editBTN.style.display = "none";
+
+        if(sideCard == "EVA")
+        {
+            let inputPilote = document.getElementById("inputNomPiloteEVA" + numCard);
+            inputPilote.style.display = "block";
+            let namePilote = document.getElementById("nomPiloteEVA" + numCard);
+            namePilote.style.display = "none";
+        }
+
+        let inputCard = document.getElementById("inputCardName" + "-" + sideCard + "-" + numCard);
+        inputCard.style.display = "block";
+        let nameCard = document.getElementById("cardName" + "-" + sideCard + "-" + numCard);
+        nameCard.style.display = "none";
+    }
+
+//--------------------------------------------Validation modification d'une carte------------------------------------------------------------------------------------
+
+function pressValidateButton(e) 
 {
-
-    let element = itemId;
-    let parts = element.split("-");
-    let sideCard = parts[1];
-    let numCard = parts[2];
-
-    let validBTN = document.getElementById("btnValidate" + "-" + sideCard + "-" + numCard);
-    validBTN.style.display = "block";
-    let editBTN = document.getElementById("btnEdit" + "-" + sideCard + "-" + numCard);
-    editBTN.style.display = "none";
-
-    if(sideCard == "EVA")
-    {
-        let inputPilote = document.getElementById("inputNomPiloteEVA" + numCard);
-        inputPilote.style.display = "block";
-        let namePilote = document.getElementById("nomPiloteEVA" + numCard);
-        namePilote.style.display = "none";
-    }
-
-    let inputCard = document.getElementById("inputCardName" + "-" + sideCard + "-" + numCard);
-    inputCard.style.display = "block";
-    let nameCard = document.getElementById("cardName" + "-" + sideCard + "-" + numCard);
-    nameCard.style.display = "none";
+    validateModify(e.target.id)
 }
-
-// Validation modification d'une carte
-    const pressValidateButton = e => 
-    {
-        validateModify(e.target.id)
-    }
 
 function validateModify(itemId)
 {
@@ -344,16 +345,13 @@ function validateModify(itemId)
     let parts = element.split("-");
     let sideCard = parts[1];
     let numCard = parts[2];
-
     let validBTN = document.getElementById("btnValidate" + "-" + sideCard + "-" + numCard);
     validBTN.style.display = "none";
     let editBTN = document.getElementById("btnEdit" + "-" + sideCard + "-" + numCard);
     editBTN.style.display = "block";
-
     let inputCard = document.getElementById("inputCardName" + "-" + sideCard + "-" + numCard);
     let nameCard = document.getElementById("cardName" + "-" + sideCard + "-" + numCard);
     let namePilote = document.getElementById("nomPiloteEVA" + numCard);
-
     if(inputCard.value.length != 0)
     {
         if(sideCard == "EVA")
@@ -365,7 +363,6 @@ function validateModify(itemId)
             nameCard.textContent = inputCard.value;
         }
     }
-
     if(sideCard == "EVA")
     {
         let inputPilote = document.getElementById("inputNomPiloteEVA" + numCard);
@@ -375,7 +372,6 @@ function validateModify(itemId)
             namePilote.textContent = inputPilote.value;
         }
         inputPilote.style.display = "none";
-        
         namePilote.style.display = "block";
     }
     else
@@ -386,6 +382,8 @@ function validateModify(itemId)
     inputCard.style.display = "none";
     nameCard.style.display = "block";
 }
+
+//-----------------------------------------LocalStorage functions-----------------------------------------------------------------------------------------------------------------
 
 function onLoadFunctions()
 {
