@@ -399,7 +399,7 @@ function validateModify(itemId)
     {
         namePilote = "";
     }
-    pushToLocal(sideCard, typeofCard, numCard, nameCard.textContent, namePilote.textContent);
+    pushToLocal(sideCard, typeOfCard, numCard, nameCard.textContent, namePilote.textContent);
     inputCard.style.display = "none";
     nameCard.style.display = "block";
 }
