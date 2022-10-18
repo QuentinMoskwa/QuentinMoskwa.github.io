@@ -56,13 +56,13 @@ function addCard(Side, storageIndex, storageTypeOfCard, storageCardName, storage
         if(Side == "EVA")
         {
             masterId = "EVA";
-            let select = document.getElementById("dropDownEVA");
+            const select = document.getElementById("dropDownEVA");
             value = select.options[select.selectedIndex].value;
         }
         else if(Side == "Angel")
         {
             masterId = "Angel";
-            let select = document.getElementById("dropDownAngel");
+            const select = document.getElementById("dropDownAngel");
             value = select.options[select.selectedIndex].value;
         }
     }
@@ -81,8 +81,8 @@ function addCard(Side, storageIndex, storageTypeOfCard, storageCardName, storage
     }
 
     console.log(masterId);
-    let block = document.getElementById(masterId);
-    let divCard = document.createElement("div");
+    const block = document.getElementById(masterId);
+    const divCard = document.createElement("div");
     divCard.setAttribute("id", "divCard"+indexMeca);
     divCard.setAttribute("class", "Card");
     divCard.style.margin = "20px 50px 0 50px";
