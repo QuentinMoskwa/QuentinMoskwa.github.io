@@ -80,7 +80,6 @@ function addCard(Side, storageIndex, storageTypeOfCard, storageCardName, storage
         }
     }
 
-    console.log(masterId);
     const block = document.getElementById(masterId);
     const divCard = document.createElement("div");
     divCard.setAttribute("id", "divCard"+indexMeca);
