@@ -260,15 +260,18 @@ function addCard(Side, storageCardName, storagePiloteName)
     divParametres.appendChild(btnValidate);
     btnValidate.style.display = "none";
 
-    if(Side == "EVA")
+    if(storageCardName == null)
     {
-        pushToLocal(Side, indexMeca, defaultCardName, defaultPiloteName);
+        if(Side == "EVA")
+        {
+            pushToLocal(Side, indexMeca, defaultCardName, defaultPiloteName);
+        }
+        else if(Side == "Angel")
+        {
+            pushToLocal(Side, indexAngel, defaultCardName);
+        }
     }
-    else if(Side == "Angel")
-    {
-        pushToLocal(Side, indexAngel, defaultCardName);
-    }
-
+    storageCardName = null;
     if(Side == "EVA")
     {
         indexMeca +=1;
