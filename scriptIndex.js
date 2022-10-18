@@ -4,7 +4,7 @@ let defaultPiloteName;
 let defaultCardName;
 
 //-----------------------------------------------------FullscreenAPI-----------------------------------------------------------------------------------------------------------
-function Fullscreen()
+function enableFullscreen()
 {
     document.documentElement.requestFullscreen()
 }
@@ -47,24 +47,42 @@ function onChargingChange() {
 
 
 //----------------------------------------------------function for adding cards----------------------------------------------------------------------------------
-function addCard(Side, storageCardName, storagePiloteName)
+function addCard(Side, storageIndex, storageTypeOfCard, storageCardName, storagePiloteName)
 {
     let value;
-    if(Side == "EVA")
+    let masterId;
+    if(storageTypeOfCard == null)
     {
-        masterId = "EvaCard";
-        let select = document.getElementById("dropDownEVA");
-        value = select.options[select.selectedIndex].value;
+        if(Side == "EVA")
+        {
+            masterId = "EVA";
+            let select = document.getElementById("dropDownEVA");
+            value = select.options[select.selectedIndex].value;
+        }
+        else if(Side == "Angel")
+        {
+            masterId = "Angel";
+            let select = document.getElementById("dropDownAngel");
+            value = select.options[select.selectedIndex].value;
+        }
     }
-    else if(Side == "Angel")
+    else
     {
-        masterId = "AngelCard";
-        let select = document.getElementById("dropDownAngel");
-        value = select.options[select.selectedIndex].value;
+        value = storageTypeOfCard;
+        masterId = Side;
+        if(Side == "EVA")
+        {
+            indexMeca = storageIndex;
+        }
+        else if(Side == "Angel")
+        {
+            indexAngel = storageIndex;
+        }
     }
-    const block = document.getElementById(masterId);
 
-    const divCard = document.createElement("div");
+    console.log(masterId);
+    let block = document.getElementById(masterId);
+    let divCard = document.createElement("div");
     divCard.setAttribute("id", "divCard"+indexMeca);
     divCard.setAttribute("class", "Card");
     divCard.style.margin = "20px 50px 0 50px";
@@ -233,26 +251,28 @@ function addCard(Side, storageCardName, storagePiloteName)
     btnEdit.setAttribute("type", "button");
     if(Side == "EVA")
     {
-        btnEdit.setAttribute("id", "btnEdit" + "-" + Side + "-" + indexMeca);
+        btnEdit.setAttribute("id", "btnEdit" + "-" + Side + "-" + indexMeca + "-" + value);
     }
     else if(Side == "Angel")
     {
-        btnEdit.setAttribute("id", "btnEdit" + "-" + Side + "-" + indexAngel);
+        btnEdit.setAttribute("id", "btnEdit" + "-" + Side + "-" + indexAngel + "-" + value);
     }
     btnEdit.textContent = "Edit";
     btnEdit.setAttribute("class","btnEdit");
     btnEdit.addEventListener("click", pressEditButton);
     divParametres.appendChild(btnEdit);
-    
+
+            //-------------------------------------------Boutton Valider--------------------------------------------------------------------------------------------------------------
+
     let btnValidate = document.createElement("button");
     btnValidate.setAttribute("type", "button");
     if(Side == "EVA")
     {
-        btnValidate.setAttribute("id", "btnValidate" + "-" + Side + "-" + indexMeca);
+        btnValidate.setAttribute("id", "btnValidate" + "-" + Side + "-" + indexMeca + "-" + value);
     }
     else if(Side == "Angel")
     {
-        btnValidate.setAttribute("id", "btnValidate" + "-" + Side + "-" + indexAngel);
+        btnValidate.setAttribute("id", "btnValidate" + "-" + Side + "-" + indexAngel + "-" + value);
     }
     btnValidate.textContent = "Ok";
     btnValidate.setAttribute("class","btnValidate");
@@ -264,21 +284,21 @@ function addCard(Side, storageCardName, storagePiloteName)
     {
         if(Side == "EVA")
         {
-            pushToLocal(Side, indexMeca, defaultCardName, defaultPiloteName);
+            pushToLocal(Side, value, indexMeca, defaultCardName, defaultPiloteName);
         }
         else if(Side == "Angel")
         {
-            pushToLocal(Side, indexAngel, defaultCardName);
+            pushToLocal(Side, value, indexAngel, value, defaultCardName);
         }
     }
 
     if(Side == "EVA")
     {
-        indexMeca +=1;
+        indexMeca++;
     }
     else if(Side == "Angel")
     {
-        indexAngel +=1;
+        indexAngel++;
     }
 }
 
@@ -312,10 +332,11 @@ function addCard(Side, storageCardName, storagePiloteName)
         let parts = element.split("-");
         let sideCard = parts[1];
         let numCard = parts[2];
+        let typeOfCard = parts[3];
 
-        let validBTN = document.getElementById("btnValidate" + "-" + sideCard + "-" + numCard);
+        let validBTN = document.getElementById("btnValidate" + "-" + sideCard + "-" + numCard + "-" + typeOfCard);
         validBTN.style.display = "block";
-        let editBTN = document.getElementById("btnEdit" + "-" + sideCard + "-" + numCard);
+        let editBTN = document.getElementById("btnEdit" + "-" + sideCard + "-" + numCard + "-" + typeOfCard);
         editBTN.style.display = "none";
 
         if(sideCard == "EVA")
@@ -345,9 +366,10 @@ function validateModify(itemId)
     let parts = element.split("-");
     let sideCard = parts[1];
     let numCard = parts[2];
-    let validBTN = document.getElementById("btnValidate" + "-" + sideCard + "-" + numCard);
+    let typeOfCard = parts[3];
+    let validBTN = document.getElementById("btnValidate" + "-" + sideCard + "-" + numCard + "-" + typeOfCard);
     validBTN.style.display = "none";
-    let editBTN = document.getElementById("btnEdit" + "-" + sideCard + "-" + numCard);
+    let editBTN = document.getElementById("btnEdit" + "-" + sideCard + "-" + numCard + "-" + typeOfCard);
     editBTN.style.display = "block";
     let inputCard = document.getElementById("inputCardName" + "-" + sideCard + "-" + numCard);
     let nameCard = document.getElementById("cardName" + "-" + sideCard + "-" + numCard);
@@ -378,7 +400,7 @@ function validateModify(itemId)
     {
         namePilote = "";
     }
-    pushToLocal(sideCard, numCard, nameCard.textContent, namePilote.textContent);
+    pushToLocal(sideCard, typeofCard, numCard, nameCard.textContent, namePilote.textContent);
     inputCard.style.display = "none";
     nameCard.style.display = "block";
 }
@@ -397,13 +419,13 @@ function onLoadFunctions()
             data = data.replace('"','');
         }
         let parts = data.split(",");
-        addCard(parts[0], parts[2], parts[3]);
+        addCard(parts[0], parts[2], parts[1], parts[3], parts[4]);
     }
 }
 
-function pushToLocal(sideCard, index, cardName, piloteName)
+function pushToLocal(sideCard, typeofCard, index, cardName, piloteName)
 {
-    let data = [sideCard, index, cardName, piloteName];
+    let data = [sideCard, typeofCard, index, cardName, piloteName];
     localStorage.setItem("card" + "-"+ sideCard+ "-"+ index, JSON.stringify(data));
 }
 
