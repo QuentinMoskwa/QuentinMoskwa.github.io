@@ -271,7 +271,7 @@ function addCard(Side, storageCardName, storagePiloteName)
             pushToLocal(Side, indexAngel, defaultCardName);
         }
     }
-    storageCardName = null;
+
     if(Side == "EVA")
     {
         indexMeca +=1;
