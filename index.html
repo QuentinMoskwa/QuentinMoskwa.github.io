@@ -1,43 +1,36 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Planning NOU</title>
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
-    <style>
-        #calendar {
-            max-width: 900px;
-            margin: 40px auto;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="topBar">
     <h1 style="text-align: center;">Planning NOU</h1>
-    <div id="calendar"></div>
+    <input
+      type="text"
+      id="nameInput"
+      placeholder="Entrez votre nom"
+      style="width: 300px; margin: 20px auto; display: block; text-align: center;"
+    />
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const calendarEl = document.getElementById('calendar');
+  <div id="calendar"></div>
 
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                selectable: true,
-                dateClick: function(info) {
-                    const title = prompt('Entrez votre nom ou disponibilité pour le ' + info.dateStr);
-                    if (title) {
-                        calendar.addEvent({
-                            title: title,
-                            start: info.dateStr,
-                            allDay: true
-                        });
-                    }
-                }
-            });
+  <!-- MODALE -->
+  <div id="popup" class="modal">
+    <div class="modal-content">
+      <h3>Choisissez votre disponibilité</h3>
+      <button class="dispo" onclick="addEventFromModal('DISPO')">DISPO</button>
+      <button class="provisoire" onclick="addEventFromModal('PROVISOIRE')">PROVISOIRE</button>
+      <button class="pasdispo" onclick="addEventFromModal('PAS DISPO')">PAS DISPO</button>
+    </div>
+  </div>
 
-            calendar.render();
-        });
-    </script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+  <script src="calendar.js"></script>
 </body>
 </html>
