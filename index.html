@@ -8,6 +8,31 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <button id="infoButton" class="info-button">ℹ️</button>
+  <div id="infoModal" class="modal">
+  <div class="modal-content">
+    <h2>À propos</h2>
+    <p>Bienvenue sur le <strong>Planning NOU</strong> 🗓️ !</p>
+    <ul style="text-align: left;">
+      <li class="textInfo">Cliquez sur une date ou le + pour ajouter une disponibilité</li>
+      <li class="textInfo">Sélectionnez un intervalle de dates si vous êtes dispo plusieurs jours</li>
+      <li class="textInfo">Vous pouvez ajouter une note (ex : "que le soir")</li>
+      <li class="textInfo">Cliquez sur un événement pour le modifier ou le supprimer</li>
+    </ul>
+    <p style="margin-top: 1em; font-size: 0.9em; color: #555;">
+      Développé par <strong>Q. Moskwa</strong> – version 2025
+    </p>
+    <p style="margin-top: 1em; font-size: 0.01em; color: #686868;">
+      Pour toute question ou suggestion, contactez-moi à <a href="mailto:vatefairefoutrepayemoi@gmail.com">ce mail</a>
+    </p>
+    <button onclick="closeInfoModal()">Fermer</button>
+  </div>
+</div>
+
+
+
+
+
   <div class="topBar">
     <h1 style="text-align: center;">Planning NOU</h1>
     <input
@@ -21,14 +46,63 @@
   <div id="calendar"></div>
 
   <!-- MODALE -->
-  <div id="popup" class="modal">
-    <div class="modal-content">
-      <h3>Choisissez votre disponibilité</h3>
+<div id="popup" class="modal">
+  <div class="modal-content">
+    <h3>Choisissez votre disponibilité</h3>
+
+    <div class="divModal">
+      <label for="startDate">Du :</label>
+      <input type="date" id="startDate">
+    </div>
+
+    <div class="divModal">
+      <label for="endDate">Au :</label>
+      <input type="date" id="endDate">
+    </div>
+
+
+    <label for="noteInput">Note (facultatif) :</label>
+    <textarea id="noteInput" placeholder="Ex: je ne suis dispo que l'après-midi" rows="2" style="width: 100%; margin-bottom: 10px;"></textarea>
+
+
+    <div style="margin-top: 15px;">
       <button class="dispo" onclick="addEventFromModal('DISPO')">DISPO</button>
       <button class="provisoire" onclick="addEventFromModal('PROVISOIRE')">PROVISOIRE</button>
       <button class="pasdispo" onclick="addEventFromModal('PAS DISPO')">PAS DISPO</button>
     </div>
   </div>
+</div>
+
+<div id="editModal" class="modal">
+  <div class="modal-content">
+    <h3>Modifier l'événement</h3>
+
+    <div class="divModal">  
+      <label for="editNameInput">Nom :</label>
+      <input type="text" id="editNameInput" />
+    </div>
+
+    <div class="divModal">
+      <label for="editDispoSelect">Statut :</label>
+      <select id="editDispoSelect">
+        <option value="DISPO">DISPO</option>
+        <option value="PROVISOIRE">PROVISOIRE</option>
+        <option value="PAS DISPO">PAS DISPO</option>
+      </select>
+    </div>
+
+    <label for="editNoteInput">Note :</label>
+    <textarea id="editNoteInput" rows="3"></textarea>
+
+    <div style="margin-top: 10px;">
+      <button onclick="updateEvent()">💾 Enregistrer</button>
+      <button onclick="deleteEvent()">🗑️ Supprimer</button>
+      <button onclick="closeEditModal()">❌ Annuler</button>
+    </div>
+  </div>
+</div>
+
+
 
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
   <script src="calendar.js"></script>
