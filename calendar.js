@@ -190,40 +190,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
     eventClick: function(info) {
       openEditModal(info.event);
+    },
+
+    dayCellDidMount: function(info) {
+      const button = document.createElement('button');
+      button.className = 'add-event-button';
+
+      const img = document.createElement('img');
+      img.src = 'src/img/70310.png';
+      img.alt = '+';
+      img.style.width = '100%';
+      img.style.aspectRatio = '1 / 1';
+      img.style.padding = '5px';
+
+      button.appendChild(img);
+
+      button.addEventListener('click', function(e) {
+        e.stopPropagation();
+        openModal(info.date.toISOString().split('T')[0]);
+      });
+
+      const topCell = info.el.querySelector('.fc-daygrid-day-top');
+      if (topCell) {
+        topCell.appendChild(button);
+      }
     }
+
 
 
   });
 
   calendar.render();
 
-  // add button to every fc-daygrid-day-frame 
-  const dayFrames = document.querySelectorAll('.fc-daygrid-day-top');
-  dayFrames.forEach(frame => {
-    const button = document.createElement('button');
-    button.className = 'add-event-button';
-
-    // Créer une image
-    const img = document.createElement('img');
-    img.src = 'src/img/70310.png';
-    img.alt = '+';
-    img.style.width = '100%';
-    img.style.aspectRatio = '1 / 1';
-    img.style.padding = '5px';
-
-    // Ajouter l'image dans le bouton
-    button.appendChild(img);
-
-    // Gérer le clic
-    button.addEventListener('click', function(e) {
-      e.stopPropagation();
-      const dateStr = frame.getAttribute('data-date');
-      openModal(dateStr);
-    });
-
-    // Ajouter le bouton au jour
-    frame.appendChild(button);
-  });
 
 
   // Fermer la modale si on clique dehors
